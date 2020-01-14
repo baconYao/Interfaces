@@ -3,5 +3,5 @@
 ## How to use
 
 ```bash
-$ go run main.go
+$ go run main.go httpRequest.go
 ```

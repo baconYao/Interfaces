@@ -22,6 +22,9 @@ func main() {
 	printGreeting(eb)
 	printGreeting(sb)
 
+	fmt.Println("==========================================")
+
+	getGooglePage()
 }
 
 func printGreeting(b bot) {
