@@ -7,6 +7,9 @@ import (
 	"io"
 )
 
+// 自己寫一個Writer interface
+type logWriter struct {}
+
 func getGooglePage() {
 	// https://golang.org/pkg/net/http/#Client.Get
 	resp, err := http.Get("http://google.com")
@@ -22,12 +25,25 @@ func getGooglePage() {
 	// 從 ReadCloser interface 有 Reader 和 Closer 兩個 interface
 	// 最後在 Reader 這個 interface 看到 它定義的 method -> Read(p []byte) (n int, err error)
 	// 可以發現 Read 需要 []byte type 的參數。因此我們需要給予 []byte 到 resp.Body.Read()
-	bs := make([]byte, 99999)
-	resp.Body.Read(bs)
-	fmt.Println(string(bs))
+	// bs := make([]byte, 99999)
+	// resp.Body.Read(bs)
+	// fmt.Println(string(bs))
 
-	fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@")
+	// fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@")
 
 	// 第二種印出 body 的方式
-	io.Copy(os.Stdout, resp.Body)
+	// https://golang.org/pkg/io/#Copy
+	// https://golang.org/pkg/io/#Writer
+	// https://golang.org/pkg/os/#File
+	// io.Copy(os.Stdout, resp.Body)
+
+	// 第三種印出 body 的方式，自己寫 Writer interface
+	lw := logWriter{}
+	io.Copy(lw, resp.Body)
+}
+
+func (logWriter) Write(bs []byte) (int, error) {
+	fmt.Println(string(bs))
+	fmt.Println("Just wrote this many bytes:", len(bs))
+	return len(bs), nil
 }
