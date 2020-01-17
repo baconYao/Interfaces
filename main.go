@@ -25,6 +25,14 @@ func main() {
 	fmt.Println("==========================================")
 
 	getGooglePage()
+
+
+	t := triangle{base: 10, height: 10}
+	s := square{sideLength: 10}
+
+	printArean(t)
+	printArean(s)
+
 }
 
 func printGreeting(b bot) {
